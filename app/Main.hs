@@ -10,16 +10,18 @@ import Servant.API
 import Servant.Server
 
 import Api.Routes.User
+import Api.Routes.Movie
 import DB (parseConnectionString, runMigrations)
 -- import DB (connectToDB, runMigrations)
 
-type API = "hello" :> Get '[PlainText] String
+type HelloAPI = "hello" :> Get '[PlainText] String
+type API = HelloAPI :<|> UserAPI :<|> MovieAPI 
 
-server :: Server API
+server :: Server HelloAPI
 server = return "Hello, World!"
 
 server1 :: Server API
-server1 = server :<|> usersServer
+server1 = server :<|> (usersServer parseConnectionString) :<|> (moviesServer parseConnectionString)
 
 api :: Proxy API
 api = Proxy

@@ -25,6 +25,7 @@ source-repository head
 
 library
   exposed-modules:
+      Api.Routes.Movie
       Api.Routes.User
       DB
       Lib
