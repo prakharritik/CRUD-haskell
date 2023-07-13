@@ -37,6 +37,7 @@ dependencies:
   - monad-logger
   - servant
   - servant-server
+  - servant-auth
   - mtl
   - aeson
   - bytestring
@@ -49,6 +50,11 @@ dependencies:
   - attoparsec
   - directory
   - persistent
+  - bcrypt
+  - random
+  - base64-bytestring
+  - jwt
+  - containers
 
 ghc-options:
   - -Wall

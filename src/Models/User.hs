@@ -26,7 +26,7 @@ import Data.Aeson.Types (Parser, withObject, (.:), (.=))
 import GHC.Generics (Generic)
 
 share [mkPersist sqlSettings, mkMigrate "migrateUser"] [persistLowerCase|
-User
+  User sql=users
     name Text
     email Text
     password Text
@@ -54,3 +54,12 @@ parseUser obj = do
     , userEmail = uEmail
     , userPassword = uPassword
     }
+
+data LoginRequest = LoginRequest
+  { loginEmail :: Text
+  , loginPassword :: Text
+  } deriving (Generic)
+
+instance FromJSON LoginRequest where
+  parseJSON = withObject "LoginRequest" $ \v ->
+    LoginRequest <$> v .: "email" <*> v .: "password"

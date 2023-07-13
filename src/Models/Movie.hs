@@ -26,10 +26,10 @@ import Data.Aeson
 import Data.Aeson.Types (Parser, withObject, (.:), (.=))
 import GHC.Generics (Generic)
 
-import Models.User
+import Models.User ( UserId )
 
 share [mkPersist sqlSettings, mkMigrate "migrateMovie"] [persistLowerCase|
-Movie
+Movie sql = movies
     title Text
     description Text
     userId (UserId) OnDeleteCascade OnUpdateCascade

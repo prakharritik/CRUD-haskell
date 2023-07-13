@@ -9,9 +9,10 @@ import Database.Persist.Postgresql
 import Database.Persist.TH (mkMigrate, mkPersist, persistLowerCase, share, sqlSettings)
 import Database.Persist.Sql (SqlPersistT, runSqlConn, SqlBackend,runMigration)
 import Database.Persist.Types (Entity, Key)
-import Data.ByteString.Char8 (pack)
+import Data.ByteString.Char8 
 import Control.Monad.Reader (runReaderT)
 import Data.Int (Int64)
+import Data.Text (Text)
 
 
 import Models.User
@@ -39,8 +40,14 @@ runMigrations connString = do
 createUser :: ConnectionString -> User -> IO Int64
 createUser connString user = fromSqlKey <$> runAction connString (insert user)
 
--- validateUser :: User -> Database (Maybe (Key User))
--- validateUser user = fmap entityKey <$> getBy (UniqueUserName (userName user))
+-- Fetching a user by email
+fetchUserByEmail :: ConnectionString -> Text -> IO (Maybe (Entity User))
+fetchUserByEmail connString email = runStdoutLoggingT $ do
+  -- Wrap the database operation in SqlPersistT and LoggingT
+  liftIO $ runAction connString $ do
+    user <- getBy (UniqueEmail email)
+    return user
+
 
 -- -- Movie-related database functions
 

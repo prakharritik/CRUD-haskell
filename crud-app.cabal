@@ -41,12 +41,16 @@ library
     , attoparsec
     , base >=4.7 && <5
     , base-compat
+    , base64-bytestring
+    , bcrypt
     , blaze-html
     , blaze-markup
     , bytestring
+    , containers
     , directory
     , generics-sop
     , http-media
+    , jwt
     , lucid
     , monad-logger
     , mtl
@@ -55,7 +59,9 @@ library
     , persistent
     , persistent-postgresql
     , postgresql-libpq
+    , random
     , servant
+    , servant-auth
     , servant-client
     , servant-server
     , string-conversions
@@ -78,13 +84,17 @@ executable crud-app-exe
     , attoparsec
     , base >=4.7 && <5
     , base-compat
+    , base64-bytestring
+    , bcrypt
     , blaze-html
     , blaze-markup
     , bytestring
+    , containers
     , crud-app
     , directory
     , generics-sop
     , http-media
+    , jwt
     , lucid
     , monad-logger
     , mtl
@@ -93,7 +103,9 @@ executable crud-app-exe
     , persistent
     , persistent-postgresql
     , postgresql-libpq
+    , random
     , servant
+    , servant-auth
     , servant-client
     , servant-server
     , string-conversions
@@ -117,13 +129,17 @@ test-suite crud-app-test
     , attoparsec
     , base >=4.7 && <5
     , base-compat
+    , base64-bytestring
+    , bcrypt
     , blaze-html
     , blaze-markup
     , bytestring
+    , containers
     , crud-app
     , directory
     , generics-sop
     , http-media
+    , jwt
     , lucid
     , monad-logger
     , mtl
@@ -132,7 +148,9 @@ test-suite crud-app-test
     , persistent
     , persistent-postgresql
     , postgresql-libpq
+    , random
     , servant
+    , servant-auth
     , servant-client
     , servant-server
     , string-conversions
