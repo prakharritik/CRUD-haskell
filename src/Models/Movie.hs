@@ -63,6 +63,15 @@ parseMovie obj = do
     , movieUserId = mUserId
     }
 
+--Movie Request Type
+data MovieRequest = MovieRequest {
+  description :: Text,
+  title :: Text
+} deriving (Generic, Show)
+
+instance ToJSON MovieRequest
+instance FromJSON MovieRequest
+
 -- response type
 data SuccessResponse = SuccessResponse
   {

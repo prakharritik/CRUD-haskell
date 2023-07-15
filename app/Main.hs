@@ -1,37 +1,61 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE OverloadedStrings #-}
 
-module Main (main) where
-
-import Data.Proxy
-import Network.Wai
+import Prelude hiding (id)
+import Data.Text (Text)
+import GHC.Generics ( Generic )
 import Network.Wai.Handler.Warp (run)
-import Servant.API
-import Servant.Server
-
+import Servant
+import Data.Aeson ( FromJSON, ToJSON )
+import Servant.Auth.Server
 import Api.Routes.User
+import qualified Data.ByteString.Char8 as BS
 import Api.Routes.Movie
-import DB (parseConnectionString, runMigrations)
--- import DB (connectToDB, runMigrations)
+import DB (parseConnectionString)
+import System.Environment
+import Data.Maybe (fromMaybe)
 
-type HelloAPI = "hello" :> Get '[PlainText] String
-type API = HelloAPI :<|> UserAPI :<|> MovieAPI 
+-- Token data type
+newtype Token = Token
+  { jwtToken :: Text
+  } deriving (Generic)
 
-server :: Server HelloAPI
-server = return "Hello, World!"
+-- Instances for token data type
+instance ToJSON Token
+instance FromJSON Token
 
-server1 :: Server API
-server1 = server :<|> (usersServer parseConnectionString) :<|> (moviesServer parseConnectionString)
+type WelcomeApi = Get '[PlainText] String
+type API = WelcomeApi :<|> UserAPI :<|> MovieAPI 
 
-api :: Proxy API
-api = Proxy
+welcomeServer :: Server WelcomeApi
+welcomeServer = return "Welcome to Rotten Tomatoes XD!!"
 
-app :: Application
-app = serve api (server1)
+server :: Server API
+server = welcomeServer :<|> usersServer parseConnectionString :<|> moviesServer parseConnectionString
 
+
+-- Server and JWT settings
+app :: JWTSettings -> Application
+app jwtCfg = serveWithContext api ctx server
+  where
+    api :: Proxy API
+    api = Proxy
+
+    ctx :: Context '[JWTSettings, CookieSettings]
+    ctx = jwtCfg :. defaultCookieSettings :. EmptyContext
+
+-- Main function to start the server
 main :: IO ()
 main = do
-    -- pool <- connectToDB (dbConnectionString config)
-    runMigrations parseConnectionString
-    run 8080 app
-    
+  jwtSecret <- lookupEnv "jwtSecret"
+
+  case jwtSecret of
+    Just secret -> do
+      let jwtCfg = defaultJWTSettings (fromSecret $ BS.pack secret)
+      run 8080 $ app jwtCfg
+
+    Nothing ->
+      putStrLn "jwtSecret is not set"
+  

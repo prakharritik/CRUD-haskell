@@ -34,12 +34,15 @@ dependencies:
   - persistent-postgresql
   - servant-server
   - servant-client
+  - transformers-either
   - monad-logger
   - servant
   - servant-server
   - servant-auth
   - mtl
+  - jose
   - aeson
+  - either
   - bytestring
   - string-conversions
   - http-media
@@ -55,6 +58,9 @@ dependencies:
   - base64-bytestring
   - jwt
   - containers
+  - http-types
+  - servant-auth-server
+  - data-default
 
 ghc-options:
   - -Wall

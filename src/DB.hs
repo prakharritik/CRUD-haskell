@@ -6,10 +6,7 @@ import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Logger (runStdoutLoggingT, LoggingT)
 import Database.Persist
 import Database.Persist.Postgresql
-import Database.Persist.TH (mkMigrate, mkPersist, persistLowerCase, share, sqlSettings)
-import Database.Persist.Sql (SqlPersistT, runSqlConn, SqlBackend,runMigration)
-import Database.Persist.Types (Entity, Key)
-import Data.ByteString.Char8 
+import Data.ByteString.Char8
 import Control.Monad.Reader (runReaderT)
 import Data.Int (Int64)
 import Data.Text (Text)
@@ -48,7 +45,12 @@ fetchUserByEmail connString email = runStdoutLoggingT $ do
     user <- getBy (UniqueEmail email)
     return user
 
-
+-- fetchUserById :: ConnectionString -> Int64 -> IO (Maybe  AuthenticatedUser)
+-- fetchUserById connString id = do 
+--   u <- runAction connString (get (toSqlKey id))
+--   return $ case u of
+--     Just u -> Just (AUser (   fromIntegral (fromSqlKey $ entityKey u)) (unpack $ encodeUtf8 $ userEmail (entityVal u)))
+--     Nothing -> Nothing
 -- -- Movie-related database functions
 
 -- fetching a movie from DB
@@ -71,3 +73,7 @@ deleteMovie connString uid = runAction connString (delete movieKey)
   where
     movieKey :: Key Movie
     movieKey = toSqlKey uid
+
+-- Fetching all movies
+fetchAllMovies :: ConnectionString -> IO [Entity Movie]
+fetchAllMovies connString = runAction connString $ selectList [] []

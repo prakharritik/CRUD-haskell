@@ -3,7 +3,14 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: servant-auth-server-0.4.8.0@sha256:b9137bebf5ca56e4fd20402680e71f5734a6f511f0464e8eff6577aa9947ce35,5521
+    pantry-tree:
+      sha256: dc2c8e68f97211e1545dae2dd922b15062481903610aa5868dc3aa5df1f8f2b6
+      size: 1376
+  original:
+    hackage: servant-auth-server-0.4.8.0
 snapshots:
 - completed:
     sha256: c4381351ba5837a6356fcc0ebeb7a61fdcaf3a085c903a6f730f56b131d5cb58

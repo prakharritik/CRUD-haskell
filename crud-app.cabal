@@ -28,9 +28,10 @@ library
       Api.Routes.Movie
       Api.Routes.User
       DB
-      Lib
+      Models.Jwt
       Models.Movie
       Models.User
+      Utils.Jwt
   other-modules:
       Paths_crud_app
   hs-source-dirs:
@@ -47,9 +48,13 @@ library
     , blaze-markup
     , bytestring
     , containers
+    , data-default
     , directory
+    , either
     , generics-sop
     , http-media
+    , http-types
+    , jose
     , jwt
     , lucid
     , monad-logger
@@ -62,12 +67,14 @@ library
     , random
     , servant
     , servant-auth
+    , servant-auth-server
     , servant-client
     , servant-server
     , string-conversions
     , text
     , time
     , transformers
+    , transformers-either
     , wai
     , warp
   default-language: Haskell2010
@@ -91,9 +98,13 @@ executable crud-app-exe
     , bytestring
     , containers
     , crud-app
+    , data-default
     , directory
+    , either
     , generics-sop
     , http-media
+    , http-types
+    , jose
     , jwt
     , lucid
     , monad-logger
@@ -106,12 +117,14 @@ executable crud-app-exe
     , random
     , servant
     , servant-auth
+    , servant-auth-server
     , servant-client
     , servant-server
     , string-conversions
     , text
     , time
     , transformers
+    , transformers-either
     , wai
     , warp
   default-language: Haskell2010
@@ -136,9 +149,13 @@ test-suite crud-app-test
     , bytestring
     , containers
     , crud-app
+    , data-default
     , directory
+    , either
     , generics-sop
     , http-media
+    , http-types
+    , jose
     , jwt
     , lucid
     , monad-logger
@@ -151,12 +168,14 @@ test-suite crud-app-test
     , random
     , servant
     , servant-auth
+    , servant-auth-server
     , servant-client
     , servant-server
     , string-conversions
     , text
     , time
     , transformers
+    , transformers-either
     , wai
     , warp
   default-language: Haskell2010

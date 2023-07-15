@@ -19,9 +19,14 @@
 
 module Models.User where
 
+import Web.JWT
+
 import Data.Text (Text)
+import qualified Data.Text
 import Database.Persist.TH
 import Data.Aeson
+import Servant.Auth as SA
+import Servant.Auth.Server as SAS
 import Data.Aeson.Types (Parser, withObject, (.:), (.=))
 import GHC.Generics (Generic)
 
